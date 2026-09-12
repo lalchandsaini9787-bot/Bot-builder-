@@ -16,7 +16,8 @@ ADMIN_ID = int(os.getenv("ADMIN_ID", "0"))
 web = Flask(__name__)
 @web.route('/')
 def home(): return "Bot Live!"
-Thread(target=lambda: web.run(host='0.0.0.0', port=10000), daemon=True).start()
+port = int(os.environ.get("PORT", 10000))
+Thread(target=lambda: web.run(host='0.0.0.0', port=port), daemon=True).start()
 
 # --- DB ---
 client = MongoClient(MONGO_URI)
