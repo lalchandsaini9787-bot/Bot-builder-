@@ -40,7 +40,7 @@ async def launch_bot(token, btype):
     for h in ALL_TYPES[btype](): app2.add_handler(h)
     await app2.initialize()
     await app2.start()
-    asyncio.create_task(app2.updater.start_polling())
+    await app2.updater.start_polling()
 
 async def start_master(u: Update, c: ContextTypes.DEFAULT_TYPE):
     await u.message.reply_text("Apna bot token bhejo pehle:")
@@ -75,9 +75,7 @@ async def broadcast(u: Update, c: ContextTypes.DEFAULT_TYPE):
     await u.message.reply_text(f"✅ {cnt} ko bheja")
 
 print("Master Bot Started...")
+import asyncio
+asyncio.set_event_loop(asyncio.new_event_loop())
+
 app = ApplicationBuilder().token(MASTER_TOKEN).build()
-app.add_handler(CommandHandler("start", start_master))
-app.add_handler(CommandHandler("broadcast", broadcast))
-app.add_handler(CallbackQueryHandler(button_click))
-app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_token))
-app.run_polling()
